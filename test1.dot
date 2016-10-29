@@ -1,0 +1,15 @@
+digraph Tree {
+  lbl6 [label="ExpNum: 8.0"];
+  lbl0 [label="ExpBinOp: PLUS"];
+  lbl1 [label="ExpBinOp: PLUS"];
+  lbl4 [label="ExpNum: 6.0"];
+  lbl5 [label="ExpNum: 7.0"];
+  lbl2 [label="ExpBinOp: PLUS"];
+  lbl3 [label="ExpNum: 5.0"];
+  lbl0 -> lbl1;
+  lbl1 -> lbl2;
+  lbl2 -> lbl3;
+  lbl2 -> lbl4;
+  lbl1 -> lbl5;
+  lbl0 -> lbl6;
+}
