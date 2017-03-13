@@ -299,7 +299,7 @@ import javaslang.Tuple;
 import javaslang.Tuple2;
 
 public class TestJavaslang {
-  public static void main(String[] args) {
+  public static void main(String[] exps) {
     Tuple2<String, Integer> person = Tuple.of("paul", 17);
 
     String name = person._1;
@@ -602,10 +602,10 @@ public static Loc loc(ComplexSymbol a, ComplexSymbol b)
     estáticos que facilitam a criação de objetos de erro:
 \begin{pygmented}[]
 static CompilerError error(String message)
-static CompilerError error(String format, Object... args)
-static CompilerError error(Loc loc, String format, Object... args)
+static CompilerError error(String format, Object... exps)
+static CompilerError error(Loc loc, String format, Object... exps)
 
-static FatalError fatal(String format, Object... args)
+static FatalError fatal(String format, Object... exps)
 \end{pygmented}
   \end{itemize}
 \end{frame}

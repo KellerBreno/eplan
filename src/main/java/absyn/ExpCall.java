@@ -25,7 +25,7 @@ public class ExpCall extends Exp {
    public Tree.Node<String> toTree() {
       return Tree.of(annotateType("ExpCall"),
                      Tree.of(function.toString()),
-                     Tree.of("args",
+                     Tree.of("exps",
                              args.map(Exp::toTree)));
    }
 
