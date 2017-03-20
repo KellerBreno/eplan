@@ -50,12 +50,17 @@ terminal        VAR, EQ, COLON;
 terminal        LET, IN;
 terminal        ASSIGN;
 terminal        IF, THEN, ELSE;
+terminal        TYPE;
 
 non terminal Exp       program;
 non terminal Exp       exp;
 non terminal List<Exp> exps, expsRest;
 non terminal List<Exp> expseq, expseqRest;
 non terminal Dec       dec;
+non terminal DecVar    decvar;
+non terminal DecType   dectype;
+non terminal Type      ty;
+non terminal List<DecType> dectypes;
 non terminal List<Dec> decs;
 non terminal Var       var;
 
@@ -65,6 +70,7 @@ precedence left PLUS, MINUS;
 precedence left TIMES, DIV;
 precedence left UMINUS;
 precedence nonassoc ELSE;
+precedence nonassoc TYPE;
 
 start with program;
 
@@ -112,16 +118,34 @@ expseqRest ::=
 | SEMICOLON exp:x expseqRest:xs {: RESULT = xs.prepend(x); :}
 ;
 
-dec ::=
+decvar ::=
   VAR:v ID:x COLON ID:t EQ exp:e {: RESULT = new DecVar(loc(vxleft,exright), x, t, e); :}
 | VAR:v ID:x EQ exp:e            {: RESULT = new DecVar(loc(vxleft,exright), x, null, e); :}
 ;
 
+dectype ::=
+  TYPE:t ID:id EQ ty:ty            {: RESULT = new DecType(loc(txleft,tyxright), id, ty); :}
+;
+
+dectypes ::=
+  dectype:d                        {: RESULT = List.of(d); :}
+| dectype:d dectypes:ds            {: RESULT = ds.prepend(d); :}
+;
+
+dec ::=
+  decvar:d                        {: RESULT = d; :}
+| dectypes:d                      {: RESULT = new DecTypeMutual(loc(dxleft,dxright), d); :}
+;
+
 decs ::=
-  dec:x                        {: RESULT = List.of(x); :}
+  dec:x                         {: RESULT = List.of(x); :}
 | dec:x decs:xs                {: RESULT = xs.prepend(x); :}
 ;
 
 var ::=
   ID:v                         {: RESULT = new VarSimple(loc(vxleft,vxright), v); :}
+;
+
+ty ::=
+  ID:id                         {: RESULT = new TyName(loc(idxleft,idxright), id); :}
 ;
